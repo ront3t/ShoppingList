@@ -1,10 +1,11 @@
 {
   "name": "dashboard",
   "version": "1.0.0",
-  "description": "new dashboard try",
-  "main": "dist/server.js",
+  "description": "new project try",
+  "main": "app.ts",
+  "type": "commonjs",
   "scripts": {
-    "start": "nodemon src/server.ts",
+    "start": "nodemon src/app.ts",
     "lint": "eslint --ext .ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
