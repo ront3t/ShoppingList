@@ -1,0 +1,27 @@
+ticket {
+    id: string,
+    title: string,
+    owner: user.id
+    system: string,
+    severity: string,
+    text: string,
+    inCharge: user.id
+    status: string
+}
+roles {
+    id: string,
+    name: string
+}
+system {
+    id: string,
+    name: string
+}
+severity {
+    id: string,
+    name: string
+}
+status {
+    id: string,
+    name: string
+}
+
