@@ -8,6 +8,7 @@ import cors from 'cors'
 import mongoose from 'mongoose'
 import StatusRoutes from "./routes/Status"
 import SeverityRoutes from "./routes/Severity"
+import UserRoutes from "./routes/User"
 
 ///configurations
 dotenv.config()
@@ -21,6 +22,7 @@ app.use(cors())
 ///middlewares
 app.use('/api/status', StatusRoutes)
 app.use('/api/severity', SeverityRoutes)
+app.use('/api/user', UserRoutes)
 
 app.use( (req, res, next) => {
     next(createHttpError(404, "Endpoint not found"))
