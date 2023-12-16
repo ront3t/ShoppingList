@@ -5,18 +5,31 @@ import dotenv from "dotenv"
 import morgan from 'morgan'
 import createHttpError, {isHttpError} from 'http-errors'
 import cors from 'cors'
-import mongoose from 'mongoose'
 import StatusRoutes from "./routes/Status"
 import SeverityRoutes from "./routes/Severity"
 import UserRoutes from "./routes/User"
+import session from 'express-session'
+import MongoStore from 'connect-mongo'
 
 ///configurations
-dotenv.config()
 const app = express()
 app.use(express.json())
-app.use(morgan('dev'));
+dotenv.config()
 app.use(bodyParser.json({limit:"30mb"}))
 app.use(bodyParser.urlencoded({limit:"30mb", extended: true}))
+app.use(session({
+    secret: process.env.SECRET!,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 60 * 60 * 1000,
+    },
+    rolling: true,
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGO_CONNECTION_STRING
+    }),
+}));
+app.use(morgan('dev'));
 app.use(cors())
 
 ///middlewares
@@ -38,12 +51,5 @@ app.use((error:unknown,req:Request, res:Response,next:NextFunction) => {
   }
   res.status(statusCode).json({ error:errorMessage})
 })
-
-mongoose.connect(process.env.MONGO_CONNECTION_STRING!).then(() => {
-  console.log('mongoose connected')
-  app.listen(process.env.PORT, () => {
-    console.log('server running on port: ' + process.env.PORT)
-  })
-}).catch(console.error)
 
 export default app

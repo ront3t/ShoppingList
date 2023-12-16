@@ -7,6 +7,6 @@ export const getStatuses:RequestHandler = async (req, res, next) => {
     res.status(200).json(statuses)
   } catch(error)
   {
-    next()
+    next(error)
   }
 }
