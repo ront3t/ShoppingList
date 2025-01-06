@@ -7,9 +7,7 @@ export interface IUser extends Document {
   shoppingLists: Schema.Types.ObjectId[];
   profilePicture: string;
   preferences: {
-    theme: string;
-    language: string;
-    notificationsEnabled: boolean;
+    theme: 'light'|'dark';
   };
   role: 'user' | 'admin';
 }
@@ -28,8 +26,6 @@ const UserSchema = new Schema<IUser>(
     profilePicture: { type: String },
     preferences: {
       theme: { type: String, default: 'light' },
-      language: { type: String, default: 'en' },
-      notificationsEnabled: { type: Boolean, default: true }
     }
   },
   { timestamps: true }
