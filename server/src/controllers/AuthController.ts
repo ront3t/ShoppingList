@@ -10,10 +10,6 @@ export const register:RequestHandler<unknown, unknown, IUser, unknown>  = async 
     name,
     email,
     password,
-    shoppingLists,
-    profilePicture,
-    preferences,
-    role
   } = req.body;
 
   try {
@@ -33,10 +29,12 @@ export const register:RequestHandler<unknown, unknown, IUser, unknown>  = async 
       name,
       email,
       password:passwordHash,
-      shoppingLists,
-      profilePicture,
-      preferences,
-      role
+      shoppingLists:[],
+      profilePicture:"",
+      preferences: {
+        theme: 'light',
+      },
+      role:'user'
     });
 
     if (newUser)
@@ -53,10 +51,10 @@ export const register:RequestHandler<unknown, unknown, IUser, unknown>  = async 
 
 export const login:RequestHandler = async (req, res, next) => {
   try {
-      const {username,password} = req.body;
-      const user = await User.findOne({username});
+      const {email,password} = req.body;
+      const user = await User.findOne({email});
       if(!user)
-        return res.status(400).json({error:"invalid username"})
+        return res.status(400).json({error:"invalid email"})
       const isPasswordCorrect = await bcrypt.compare(password, user.password)
 
       if(!isPasswordCorrect)
