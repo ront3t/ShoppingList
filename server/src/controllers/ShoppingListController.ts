@@ -25,6 +25,21 @@ export async function getShoppingList(req: Request, res: Response) {
   }
 }
 
+export async function getAllShoppingLists(req: Request, res: Response) {
+  try {
+    const list = await ShoppingList.find()
+      .populate('user', 'name email')
+      .populate('items')
+      .populate('sharedWith', 'name email');
+    if (!list) {
+      return res.status(404).json({ error: 'Shopping list not found' });
+    }
+    return res.json(list);
+  } catch (err) {
+    return res.status(400).json({ error: 'Error retrieving list', details: err });
+  }
+}
+
 export async function updateShoppingList(req: Request, res: Response) {
   try {
     const list = await ShoppingList.findByIdAndUpdate(req.params.id, req.body, { new: true });

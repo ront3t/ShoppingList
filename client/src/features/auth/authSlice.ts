@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import axiosClient from '../../api/axiosClient';
 
-interface IUser {
+export interface IUser {
   _id: string;
   name: string;
   email: string;
@@ -47,7 +47,7 @@ export const loginUser = createAsyncThunk<
   { email: string; password: string }, // Argument type
   { rejectValue: string }              // Rejection value type
 >(
-  'auth/loginUser',
+  'auth/login',
   async (credentials, { rejectWithValue }) => {
     try {
       const { data } = await axiosClient.post<{ token: string; user: IUser }>(
@@ -72,7 +72,7 @@ export const registerUser = createAsyncThunk<
   { name: string; email: string; password: string },
   { rejectValue: string }
 >(
-  'auth/registerUser',
+  'auth/register',
   async (credentials, { rejectWithValue }) => {
     try {
       const { data } = await axiosClient.post<{ token: string; user: IUser }>(
